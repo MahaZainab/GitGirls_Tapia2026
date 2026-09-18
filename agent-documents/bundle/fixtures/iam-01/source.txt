@@ -1,0 +1,5 @@
+When a principal makes a request, AWS evaluates the policies that apply and decides whether to allow or deny it. By default, every request is denied. This is called an implicit deny. The account root user is the exception, because it has full access by default.
+
+AWS first checks all applicable policies for an explicit deny. If any policy contains a statement that explicitly denies the request, the final decision is deny, even when another policy allows it. If there is no explicit deny, AWS looks for an allow. A request is allowed only if at least one applicable policy contains an explicit allow. If no policy allows the request, the implicit deny stands and the request is denied.
+
+Some policy types act as guardrails. Service control policies, permission boundaries, and session policies never grant permissions by themselves. They only set a maximum. When one applies, the request must be allowed by a policy that grants permission, and it must also fall inside each guardrail that applies. If a guardrail does not allow the action, the request is denied.

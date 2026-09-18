@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "passage_id": "iam-01",
+  "kind": "scenario",
+  "title": "An explicit deny wins over an allow",
+  "scenario_premise": "Suppose one policy allows the request and another policy explicitly denies it.",
+  "path_edge_ids": ["E1", "E2"],
+  "steps": [
+    {
+      "id": "A1",
+      "order": 1,
+      "focus_node_ids": ["N1"],
+      "focus_edge_ids": [],
+      "caption": "A request arrives.",
+      "claim_ids": ["C1"],
+      "anchor": {
+        "sentence_id": "S1",
+        "start": 34,
+        "end": 111,
+        "quote": "AWS evaluates the policies that apply and decides whether to allow or deny it"
+      },
+      "suggested_duration_ms": 2500,
+      "hypothetical": false
+    },
+    {
+      "id": "A2",
+      "order": 2,
+      "focus_node_ids": ["N1", "N2"],
+      "focus_edge_ids": ["E1"],
+      "caption": "AWS first checks all applicable policies for an explicit deny.",
+      "claim_ids": ["C5"],
+      "anchor": {
+        "sentence_id": "S5",
+        "start": 263,
+        "end": 325,
+        "quote": "AWS first checks all applicable policies for an explicit deny."
+      },
+      "suggested_duration_ms": 3500,
+      "hypothetical": false
+    },
+    {
+      "id": "A3",
+      "order": 3,
+      "focus_node_ids": ["N2", "N6"],
+      "focus_edge_ids": ["E2"],
+      "caption": "One policy explicitly denies the request, so the final decision is deny, even though another policy allows it.",
+      "claim_ids": ["C6"],
+      "anchor": {
+        "sentence_id": "S6",
+        "start": 397,
+        "end": 459,
+        "quote": "the final decision is deny, even when another policy allows it"
+      },
+      "suggested_duration_ms": 5000,
+      "hypothetical": true
+    },
+    {
+      "id": "A4",
+      "order": 4,
+      "focus_node_ids": ["N6"],
+      "focus_edge_ids": [],
+      "caption": "The request is denied.",
+      "claim_ids": ["C6"],
+      "suggested_duration_ms": 2000,
+      "hypothetical": true
+    }
+  ],
+  "verification": {
+    "status": "passed",
+    "checks": [
+      {"name": "path_is_contiguous", "layer": "code", "status": "pass", "detail": "E1 then E2"},
+      {
+        "name": "captions_supported",
+        "layer": "auditor",
+        "status": "pass",
+        "detail": "no unsupported captions"
+      }
+    ]
+  }
+}

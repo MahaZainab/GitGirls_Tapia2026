@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0",
+  "passage_id": "iam-01",
+  "summary": [
+    {
+      "id": "M1",
+      "text": "AWS starts from deny: every request is denied by default, except for the account root user.",
+      "claim_ids": ["C2", "C4"],
+      "pointer_ids": ["P1", "P2"]
+    },
+    {
+      "id": "M2",
+      "text": "It checks for an explicit deny first, and one deny beats any allow.",
+      "claim_ids": ["C5", "C6"],
+      "pointer_ids": ["P3", "P4"]
+    },
+    {
+      "id": "M3",
+      "text": "Without a deny, a request needs an explicit allow from at least one policy, or it is denied.",
+      "claim_ids": ["C7", "C8", "C9"],
+      "pointer_ids": ["P5", "P6"]
+    },
+    {
+      "id": "M4",
+      "text": "Guardrail policies only set a maximum, so the request must also fit inside each one that applies.",
+      "claim_ids": ["C11", "C12", "C13"],
+      "pointer_ids": ["P7", "P8"]
+    }
+  ],
+  "pointers": [
+    {
+      "id": "P1",
+      "order": 1,
+      "title": "Default is deny",
+      "summary": "Every request starts as denied. AWS calls this an implicit deny.",
+      "anchor": {"sentence_id": "S2", "start": 113, "end": 149, "quote": "By default, every request is denied."},
+      "claim_ids": ["C2", "C3"]
+    },
+    {
+      "id": "P2",
+      "order": 2,
+      "title": "Root user exception",
+      "summary": "The account root user is the one exception. It has full access by default.",
+      "anchor": {"sentence_id": "S4", "start": 183, "end": 221, "quote": "The account root user is the exception"},
+      "claim_ids": ["C4"]
+    },
+    {
+      "id": "P3",
+      "order": 3,
+      "title": "Explicit deny is checked first",
+      "summary": "AWS looks through all applicable policies for an explicit deny before anything else.",
+      "anchor": {
+        "sentence_id": "S5",
+        "start": 263,
+        "end": 325,
+        "quote": "AWS first checks all applicable policies for an explicit deny."
+      },
+      "claim_ids": ["C5"]
+    },
+    {
+      "id": "P4",
+      "order": 4,
+      "title": "Deny beats allow",
+      "summary": "If any policy explicitly denies the request, the final decision is deny, even when another policy allows it.",
+      "anchor": {
+        "sentence_id": "S6",
+        "start": 397,
+        "end": 459,
+        "quote": "the final decision is deny, even when another policy allows it"
+      },
+      "claim_ids": ["C6"]
+    },
+    {
+      "id": "P5",
+      "order": 5,
+      "title": "Allow needs an explicit allow",
+      "summary": "A request is allowed only if at least one applicable policy contains an explicit allow.",
+      "anchor": {
+        "sentence_id": "S8",
+        "start": 515,
+        "end": 602,
+        "quote": "A request is allowed only if at least one applicable policy contains an explicit allow."
+      },
+      "claim_ids": ["C8"]
+    },
+    {
+      "id": "P6",
+      "order": 6,
+      "title": "No allow means denied",
+      "summary": "If no policy allows the request, the implicit deny stands.",
+      "anchor": {
+        "sentence_id": "S9",
+        "start": 636,
+        "end": 686,
+        "quote": "the implicit deny stands and the request is denied"
+      },
+      "claim_ids": ["C9"]
+    },
+    {
+      "id": "P7",
+      "order": 7,
+      "title": "Guardrails grant nothing",
+      "summary": "Service control policies, permission boundaries and session policies never grant permissions by themselves. They only set a maximum.",
+      "anchor": {"sentence_id": "S11", "start": 796, "end": 833, "quote": "never grant permissions by themselves"},
+      "claim_ids": ["C11", "C12"]
+    },
+    {
+      "id": "P8",
+      "order": 8,
+      "title": "Fit inside every guardrail",
+      "summary": "The request must be allowed by a granting policy and must also fall inside each guardrail that applies.",
+      "anchor": {
+        "sentence_id": "S13",
+        "start": 946,
+        "end": 998,
+        "quote": "it must also fall inside each guardrail that applies"
+      },
+      "claim_ids": ["C13"]
+    }
+  ],
+  "examples": [
+    {
+      "id": "X1",
+      "kind": "worked_example",
+      "title": "Allowed by one policy, denied by another",
+      "body": "Alex has a policy that allows reading a storage bucket. A second policy explicitly denies it. Result: denied, because an explicit deny wins even when another policy allows the request.",
+      "related_pointer_ids": ["P4"],
+      "claim_ids": ["C6"],
+      "is_source_content": false,
+      "derived_numbers": []
+    },
+    {
+      "id": "X2",
+      "kind": "scenario",
+      "title": "Outside the guardrail",
+      "body": "Jo has a policy that allows reading a storage bucket, but Jo's permission boundary only covers virtual machines. Result: denied, because the request does not fall inside the guardrail.",
+      "related_pointer_ids": ["P8"],
+      "claim_ids": ["C13", "C14"],
+      "is_source_content": false,
+      "derived_numbers": []
+    }
+  ],
+  "verification": {
+    "status": "passed",
+    "checks": [
+      {
+        "name": "anchors_match_source",
+        "layer": "code",
+        "status": "pass",
+        "detail": "8 of 8 pointer anchors match"
+      },
+      {"name": "numbers_traceable", "layer": "code", "status": "pass", "detail": "no unsupported numbers"},
+      {
+        "name": "auditor_entailment",
+        "layer": "auditor",
+        "status": "pass",
+        "detail": "no unsupported or distorted statements"
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "mode": "focus",
+  "supports": {"adhd": true, "dyslexia": false},
+  "display": {"text_scale": 1.0, "motion": "reduced", "line_focus": true, "dyslexia_typography": false},
+  "focus": {
+    "pomodoro": {
+      "enabled": true,
+      "visible": false,
+      "allow_peek": true,
+      "work_minutes": 25,
+      "break_minutes": 5,
+      "nudge": "both"
+    },
+    "rain": {"enabled": true, "volume": 0.45, "during_break": "continue"},
+    "dnd": {"enabled": true, "hold_in_app_notifications": true, "digest_on_end": true}
+  },
+  "storage": {"sync": "account"},
+  "updated_at": "2026-09-18T15:00:00Z"
+}
