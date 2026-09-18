@@ -18,11 +18,11 @@ import { PreferencesProvider, usePreferences } from "./shared/preferences";
 import { installSourcePaneStub } from "./shared/sourcePaneStub";
 
 const SLOTS = [
-  { id: "material", label: "Add material", Component: AddMaterial },
-  { id: "summary", label: "Summary", Component: SummaryFeature },
-  { id: "flowchart", label: "Flowchart", Component: FlowchartFeature },
-  { id: "animation", label: "Animation", Component: AnimationFeature },
-  { id: "preferences", label: "Preferences", Component: PreferencesFeature },
+  { id: "material", label: "Add material" },
+  { id: "summary", label: "Summary" },
+  { id: "flowchart", label: "Flowchart" },
+  { id: "animation", label: "Animation" },
+  { id: "preferences", label: "Preferences" },
 ] as const;
 
 function ThemedShell() {
@@ -40,7 +40,6 @@ function ThemedShell() {
   }, [prefs.mode, prefs.display.dyslexia_typography, prefs.display.text_scale]);
 
   const [activeSlot, setActiveSlot] = useState<(typeof SLOTS)[number]["id"]>("summary");
-  const ActiveComponent = SLOTS.find((s) => s.id === activeSlot)?.Component ?? SummaryFeature;
 
   return (
     <MotionPolicyProvider userMotionSetting={prefs.display.motion}>
@@ -78,7 +77,11 @@ function ThemedShell() {
           </nav>
         </header>
         <main style={{ padding: "1rem" }}>
-          <ActiveComponent />
+          {activeSlot === "material" && <AddMaterial onSuccess={() => setActiveSlot("summary")} />}
+          {activeSlot === "summary" && <SummaryFeature />}
+          {activeSlot === "flowchart" && <FlowchartFeature />}
+          {activeSlot === "animation" && <AnimationFeature />}
+          {activeSlot === "preferences" && <PreferencesFeature />}
         </main>
         <ToastHost />
         <LiveRegion />

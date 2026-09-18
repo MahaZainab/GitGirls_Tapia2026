@@ -1,0 +1,233 @@
+{
+  "source": {
+    "title": "useEffect – React",
+    "url": "https://react.dev/reference/react/useEffect",
+    "preview_image": "https://react.dev/images/og/reference-react-useEffect.png",
+    "react_version_on_page": "v19.3",
+    "retrieved_on": "2026-09-18"
+  },
+  "summary": {
+    "one_line": "useEffect is a React Hook for synchronizing a component with an external system, such as a network connection, browser API, timer, or third-party widget.",
+    "signature": "useEffect(setup, dependencies?)",
+    "overview": "You call useEffect at the top level of a component and pass a setup function that may return a cleanup function, plus an optional dependency list of every reactive value the setup code uses. React runs setup after the component commits, runs cleanup before re-running setup when dependencies change, and runs cleanup one last time on unmount. Effects are an escape hatch for talking to things outside React, so if there is no external system involved you probably do not need one. The page covers common usage patterns (connecting to systems, custom Hooks, non-React widgets, data fetching), how to manage dependencies correctly (state updaters, moving objects and functions inside the Effect, Effect Events), how to handle server versus client rendering, and how to troubleshoot double runs, infinite loops, unexpected cleanups, and visual flicker."
+  },
+  "points": [
+    {
+      "id": 1,
+      "title": "What useEffect is",
+      "summary": "A Hook that lets a component synchronize with an external system. Called at the top level of a component to declare an Effect.",
+      "section": "Reference",
+      "source_url": "https://react.dev/reference/react/useEffect#reference"
+    },
+    {
+      "id": 2,
+      "title": "Parameter: setup",
+      "summary": "The function containing the Effect logic. It can optionally return a cleanup function. React runs setup after commit, and on dependency changes runs the old cleanup first, then setup with new values. Cleanup runs again after the component is removed from the DOM.",
+      "section": "Reference > Parameters",
+      "source_url": "https://react.dev/reference/react/useEffect#parameters"
+    },
+    {
+      "id": 3,
+      "title": "Parameter: dependencies (optional)",
+      "summary": "A list of all reactive values (props, state, and variables or functions declared in the component body) used inside setup. It must have a constant length and be written inline. React compares each item with Object.is. Omitting it makes the Effect re-run after every commit.",
+      "section": "Reference > Parameters",
+      "source_url": "https://react.dev/reference/react/useEffect#parameters"
+    },
+    {
+      "id": 4,
+      "title": "Return value",
+      "summary": "useEffect returns undefined.",
+      "section": "Reference > Returns",
+      "source_url": "https://react.dev/reference/react/useEffect#returns"
+    },
+    {
+      "id": 5,
+      "title": "Rules of Hooks apply",
+      "summary": "Only call it at the top level of a component or custom Hook, never in loops or conditions. If you need conditional behavior, extract a new component and move the state into it.",
+      "section": "Reference > Caveats",
+      "source_url": "https://react.dev/reference/react/useEffect#caveats"
+    },
+    {
+      "id": 6,
+      "title": "You may not need an Effect",
+      "summary": "If you are not synchronizing with an external system, an Effect is probably unnecessary.",
+      "section": "Reference > Caveats",
+      "source_url": "https://react.dev/reference/react/useEffect#caveats"
+    },
+    {
+      "id": 7,
+      "title": "Strict Mode extra cycle",
+      "summary": "In development with Strict Mode, React runs one extra setup and cleanup cycle before the first real setup. It is a stress test to confirm cleanup properly mirrors setup.",
+      "section": "Reference > Caveats",
+      "source_url": "https://react.dev/reference/react/useEffect#caveats"
+    },
+    {
+      "id": 8,
+      "title": "Effects run only on the client",
+      "summary": "They do not run during server rendering.",
+      "section": "Reference > Caveats",
+      "source_url": "https://react.dev/reference/react/useEffect#caveats"
+    },
+    {
+      "id": 9,
+      "title": "Timing relative to paint",
+      "summary": "Effects not caused by an interaction usually run after the browser paints. Effects caused by a click may run before paint so the event system can observe the result, and React may still allow a repaint before state updates inside the Effect are processed. If you must block painting, use useLayoutEffect. To defer work until after paint (for example an alert), use setTimeout.",
+      "section": "Reference > Caveats",
+      "source_url": "https://react.dev/reference/react/useEffect#caveats"
+    },
+    {
+      "id": 10,
+      "title": "Setup and cleanup lifecycle",
+      "summary": "Setup runs on mount. After each commit with changed dependencies, cleanup runs with old values, then setup with new values. Cleanup runs a final time on unmount. Think of each Effect as an independent process with a single setup and cleanup cycle, regardless of mount, update, or unmount.",
+      "section": "Usage > Connecting to an external system",
+      "source_url": "https://react.dev/reference/react/useEffect#connecting-to-an-external-system"
+    },
+    {
+      "id": 11,
+      "title": "What counts as an external system",
+      "summary": "Any code not controlled by React, such as timers (setInterval and clearInterval), global event subscriptions (addEventListener and removeEventListener), or third-party animation libraries. Examples on the page include a chat server, global browser events, animations, modal dialogs, and element visibility tracking.",
+      "section": "Usage > Connecting to an external system",
+      "source_url": "https://react.dev/reference/react/useEffect#examples-connecting"
+    },
+    {
+      "id": 12,
+      "title": "Cleanup must mirror setup",
+      "summary": "The user should not be able to tell the difference between one setup call (production) and setup, cleanup, setup (development). If they can, the cleanup function is missing logic.",
+      "section": "Usage > Connecting to an external system",
+      "source_url": "https://react.dev/reference/react/useEffect#connecting-to-an-external-system"
+    },
+    {
+      "id": 13,
+      "title": "Wrap Effects in custom Hooks",
+      "summary": "Effects are an escape hatch. If you write them often, extract custom Hooks such as useChatRoom, useWindowListener, or useIntersectionObserver to expose a more declarative API.",
+      "section": "Usage > Wrapping Effects in custom Hooks",
+      "source_url": "https://react.dev/reference/react/useEffect#wrapping-effects-in-custom-hooks"
+    },
+    {
+      "id": 14,
+      "title": "Controlling a non-React widget",
+      "summary": "Use an Effect to keep a non-React widget (for example a map) in sync with props or state, such as calling setZoom when zoomLevel changes. No cleanup is needed when the widget only manages the DOM node passed to it, since both are garbage-collected.",
+      "section": "Usage > Controlling a non-React widget",
+      "source_url": "https://react.dev/reference/react/useEffect#controlling-a-non-react-widget"
+    },
+    {
+      "id": 15,
+      "title": "Fetching data in Effects",
+      "summary": "It works, and an ignore flag set to true in cleanup prevents race conditions from out-of-order responses. The same applies when using async/await. Frameworks' built-in data fetching is more efficient than manual Effects.",
+      "section": "Usage > Fetching data with Effects",
+      "source_url": "https://react.dev/reference/react/useEffect#fetching-data-with-effects"
+    },
+    {
+      "id": 16,
+      "title": "Downsides of fetching in Effects",
+      "summary": "Effects do not run on the server so server HTML only has a loading state. It is easy to create network waterfalls. There is usually no preloading or caching. It also involves a lot of boilerplate to avoid bugs like race conditions.",
+      "section": "Usage > Fetching data with Effects > Deep Dive",
+      "source_url": "https://react.dev/reference/react/useEffect#what-are-good-alternatives-to-data-fetching-in-effects"
+    },
+    {
+      "id": 17,
+      "title": "Alternatives to fetching in Effects",
+      "summary": "Use your framework's built-in data fetching, or a client-side cache such as TanStack Query, useSWR, or React Router 6.4+. Building your own is possible but should add request deduplication, caching, and waterfall avoidance.",
+      "section": "Usage > Fetching data with Effects > Deep Dive",
+      "source_url": "https://react.dev/reference/react/useEffect#what-are-good-alternatives-to-data-fetching-in-effects"
+    },
+    {
+      "id": 18,
+      "title": "You cannot choose your dependencies",
+      "summary": "Every reactive value the Effect reads must be listed. The list is determined by the code. Omitting values triggers a linter error when the linter is configured for React.",
+      "section": "Usage > Specifying reactive dependencies",
+      "source_url": "https://react.dev/reference/react/useEffect#specifying-reactive-dependencies"
+    },
+    {
+      "id": 19,
+      "title": "Removing a dependency means proving it is not reactive",
+      "summary": "For example, move a constant like serverUrl outside the component so it is no longer reactive. If the Effect uses no reactive values, the dependency list should be an empty array, and the Effect will not re-run on prop or state changes.",
+      "section": "Usage > Specifying reactive dependencies",
+      "source_url": "https://react.dev/reference/react/useEffect#specifying-reactive-dependencies"
+    },
+    {
+      "id": 20,
+      "title": "Do not suppress the linter",
+      "summary": "Using eslint-ignore-next-line on react-hooks/exhaustive-deps means lying to React about what the Effect depends on and risks bugs. Prove the dependencies are unnecessary instead.",
+      "section": "Usage > Specifying reactive dependencies > Pitfall",
+      "source_url": "https://react.dev/reference/react/useEffect#specifying-reactive-dependencies"
+    },
+    {
+      "id": 21,
+      "title": "Three dependency modes",
+      "summary": "With an array, the Effect runs after the initial commit and after commits where a dependency changed. With an empty array, it runs only on mount (and cleans up on unmount). With no array at all, it runs after every commit.",
+      "section": "Usage > Specifying reactive dependencies > Examples",
+      "source_url": "https://react.dev/reference/react/useEffect#examples-dependencies"
+    },
+    {
+      "id": 22,
+      "title": "Update state from previous state via an updater",
+      "summary": "Reading count inside a setInterval forces count into the dependencies and resets the interval every tick. Pass an updater such as setCount(c => c + 1) so count is no longer a dependency.",
+      "section": "Usage > Updating state based on previous state from an Effect",
+      "source_url": "https://react.dev/reference/react/useEffect#updating-state-based-on-previous-state-from-an-effect"
+    },
+    {
+      "id": 23,
+      "title": "Avoid object dependencies created during render",
+      "summary": "An options object recreated every render makes the Effect re-run after every commit. Create the object inside the Effect so it depends only on primitive values like roomId.",
+      "section": "Usage > Removing unnecessary object dependencies",
+      "source_url": "https://react.dev/reference/react/useEffect#removing-unnecessary-object-dependencies"
+    },
+    {
+      "id": 24,
+      "title": "Avoid function dependencies created during render",
+      "summary": "Creating functions each render is fine on its own, but using one as a dependency re-runs the Effect every commit. Declare the function inside the Effect instead.",
+      "section": "Usage > Removing unnecessary function dependencies",
+      "source_url": "https://react.dev/reference/react/useEffect#removing-unnecessary-function-dependencies"
+    },
+    {
+      "id": 25,
+      "title": "Read latest props and state without reacting (Effect Events)",
+      "summary": "Use useEffectEvent to move non-reactive logic (for example reading shoppingCart when logging a page visit) out of the Effect. Effect Events are not reactive and must be omitted from the dependency list.",
+      "section": "Usage > Reading the latest props and state from an Effect",
+      "source_url": "https://react.dev/reference/react/useEffect#reading-the-latest-props-and-state-from-an-effect"
+    },
+    {
+      "id": 26,
+      "title": "Different content on server and client",
+      "summary": "Hydration needs identical initial output on server and client. For client-only content (for example reading localStorage), use a didMount state set to true in an Effect. Use sparingly because slow connections show the initial content for a while, and CSS can often avoid the need.",
+      "section": "Usage > Displaying different content on the server and the client",
+      "source_url": "https://react.dev/reference/react/useEffect#displaying-different-content-on-the-server-and-the-client"
+    },
+    {
+      "id": 27,
+      "title": "Troubleshooting: Effect runs twice on mount",
+      "summary": "Expected in development with Strict Mode. It is a stress test. If it causes visible issues, the cleanup function is missing logic.",
+      "section": "Troubleshooting",
+      "source_url": "https://react.dev/reference/react/useEffect#my-effect-runs-twice-when-the-component-mounts"
+    },
+    {
+      "id": 28,
+      "title": "Troubleshooting: Effect runs after every re-render",
+      "summary": "Check for a missing dependency array first. Otherwise a dependency changes every render. Debug by logging dependency arrays and comparing items with Object.is in the console. Fix with the earlier patterns, and use useMemo or useCallback only as a last resort.",
+      "section": "Troubleshooting",
+      "source_url": "https://react.dev/reference/react/useEffect#my-effect-runs-after-every-re-render"
+    },
+    {
+      "id": 29,
+      "title": "Troubleshooting: infinite cycle",
+      "summary": "Happens when the Effect updates state and that state change alters its dependencies. Ask whether an external system is involved at all, consider removing the Effect, use a ref for data not used in rendering, and avoid unnecessary state updates.",
+      "section": "Troubleshooting",
+      "source_url": "https://react.dev/reference/react/useEffect#my-effect-keeps-re-running-in-an-infinite-cycle"
+    },
+    {
+      "id": 30,
+      "title": "Troubleshooting: cleanup runs without unmount",
+      "summary": "Cleanup also runs before every re-run with changed dependencies, and once extra in development. Cleanup without matching setup is a code smell. Keep cleanup symmetrical to setup.",
+      "section": "Troubleshooting",
+      "source_url": "https://react.dev/reference/react/useEffect#my-cleanup-logic-runs-even-though-my-component-didnt-unmount"
+    },
+    {
+      "id": 31,
+      "title": "Troubleshooting: visual flicker",
+      "summary": "If the Effect must run before the browser paints (for example measuring and positioning a tooltip), switch to useLayoutEffect. This is not needed for the vast majority of Effects.",
+      "section": "Troubleshooting",
+      "source_url": "https://react.dev/reference/react/useEffect#my-effect-does-something-visual-and-i-see-a-flicker-before-it-runs"
+    }
+  ]
+}

@@ -19,7 +19,7 @@ import { apiClient, ApiError } from "../shared/apiClient";
 
 type Mode = "text" | "url" | "pdf";
 
-export default function AddMaterial() {
+export default function AddMaterial({ onSuccess }: { onSuccess?: (result: IngestResult) => void }) {
   const [mode, setMode] = useState<Mode>("text");
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -51,6 +51,7 @@ export default function AddMaterial() {
       if (mode === "pdf" && file) form.set("file", file);
       const ingested = await apiClient.ingestMaterial(form);
       setResult(ingested);
+      onSuccess?.(ingested);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not add this material. Is apps/api running?");
     } finally {
