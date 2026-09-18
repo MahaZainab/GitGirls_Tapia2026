@@ -16,6 +16,7 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from app.generators.flow.router import router as flow_router
 from app.materials import fetch_url_text, extract_pdf_text
 from app.models import AnimationScript, ClaimList, FlowGraph, Source, SummaryBundle, UserPreferences
 from app.preferences import get_store as get_preferences_store
@@ -32,6 +33,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+app.include_router(flow_router)  # F2: POST /api/passages/{id}/flow/generate
 
 
 class CreatePassageRequest(BaseModel):

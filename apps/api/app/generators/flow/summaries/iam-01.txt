@@ -1,0 +1,27 @@
+# Flow summary for passage iam-01. One line per box or arrow.
+#
+# Boxes:   <name> <start|step|decision|end|note> [(positive|negative)]: <label> | <claims> [| detail: ...] [| quote: ...]
+# Arrows:  <from> -> <to> | <claims>
+#          <from> -<label>-> <to> | <claims> [| implied: <why the source only implies this arrow>]
+# <claims> are ids from the passage's claim list, e.g. C5 or C8, C13.
+# quote: is an optional exact phrase from the passage that "See original text" will highlight.
+# Boxes become N1, N2, ... and arrows E1, E2, ... in the order written here.
+
+title: How a request is evaluated
+passage: iam-01
+
+request  start: Request arrives | C1
+deny?    decision: Explicit deny in any policy? | C5 | quote: AWS first checks all applicable policies for an explicit deny.
+allow?   decision: Explicit allow in a policy? | C8 | quote: A request is allowed only if at least one applicable policy contains an explicit allow.
+guard?   decision: Inside every guardrail that applies? | C13 | quote: it must also fall inside each guardrail that applies
+allowed  end (positive): Allowed | C8, C13
+denied   end (negative): Denied | C2
+root     note: Root user: full access by default | C4 | quote: The account root user is the exception, because it has full access by default.
+
+request -> deny? | C5
+deny? -yes-> denied | C6
+deny? -no-> allow? | C7
+allow? -yes-> guard? | C8, C13 | implied: The source requires both an explicit allow and fitting inside each guardrail. The order shown is a presentation choice.
+allow? -no-> denied | C9
+guard? -yes-> allowed | C13
+guard? -no-> denied | C14
