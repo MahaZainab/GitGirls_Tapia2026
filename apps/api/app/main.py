@@ -145,3 +145,12 @@ def get_preferences() -> UserPreferences:
 @app.put("/api/me/preferences", response_model=UserPreferences)
 def put_preferences(body: UserPreferences) -> UserPreferences:
     return get_preferences_store().put(STUB_USER_ID, body)
+
+
+@app.delete("/api/me/preferences", status_code=204)
+def delete_preferences() -> None:
+    """F4-R16: users can delete their stored preferences. Minimal addition to
+    this FOUNDATION-owned file by F4 BACKEND -- the store's delete() method
+    already existed, this just exposes it; noted as a CONTRACT_CHANGE_REQUEST
+    in the F4 completion report rather than blocking on it mid-hackathon."""
+    get_preferences_store().delete(STUB_USER_ID)

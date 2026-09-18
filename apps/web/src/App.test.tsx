@@ -26,6 +26,6 @@ describe("App shell", () => {
     await waitFor(() => expect(screen.getByText(/steps/)).toBeInTheDocument());
 
     await user.click(screen.getByRole("button", { name: "Preferences" }));
-    await waitFor(() => expect(screen.getByText(/mode/)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/mode/i)).toBeInTheDocument());
   });
 });
