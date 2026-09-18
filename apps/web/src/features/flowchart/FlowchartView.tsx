@@ -41,7 +41,7 @@ function useElementWidth<T extends HTMLElement>() {
   return [ref, width] as const;
 }
 
-export function FlowchartView({ graph, highlight, onNodeSelect, claims: claimsProp }: FlowchartViewProps) {
+export function FlowchartView({ graph, highlight, onNodeSelect, claims: claimsProp, showVerification = false }: FlowchartViewProps) {
   const motion = useMotionPolicy();
   const panelId = useId();
   const [view, setView] = useState<'diagram' | 'text'>('diagram');
@@ -148,7 +148,7 @@ export function FlowchartView({ graph, highlight, onNodeSelect, claims: claimsPr
   return (
     <section className="fc" data-motion={motion} aria-label={`Flowchart: ${graph.title}`}>
       <h2 className="fc__title">{graph.title}</h2>
-      <VerificationBanner verification={graph.verification} />
+      {showVerification && <VerificationBanner verification={graph.verification} />}
 
       <div className="fc__toolbar">
         <div className="fc__group" role="group" aria-label="Flowchart view">

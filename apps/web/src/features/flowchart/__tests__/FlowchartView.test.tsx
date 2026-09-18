@@ -235,7 +235,7 @@ describe('failure handling (F2-R08)', () => {
 
 describe('verification banner', () => {
   it('appears for needs_human, listing the warning', () => {
-    renderView();
+    renderView({ showVerification: true });
     const banner = screen.getByRole('note', { name: 'Verification status' });
     expect(banner).toHaveTextContent(/needs a human check/i);
     expect(banner).toHaveTextContent('E4 is implied and needs human review');
@@ -244,11 +244,11 @@ describe('verification banner', () => {
   it('is absent when passed and stronger when failed', () => {
     const passed = cloneFlow();
     passed.verification = { status: 'passed', checks: [] };
-    const { rerender } = render(<FlowchartView graph={passed} claims={iamClaims} />);
+    const { rerender } = render(<FlowchartView graph={passed} claims={iamClaims} showVerification />);
     expect(screen.queryByRole('note', { name: 'Verification status' })).toBeNull();
     const failed = cloneFlow();
     failed.verification = { status: 'failed', checks: [{ name: 'x', layer: 'code', status: 'fail', detail: 'Broken edge' }] };
-    rerender(<FlowchartView graph={failed} claims={iamClaims} />);
+    rerender(<FlowchartView graph={failed} claims={iamClaims} showVerification />);
     expect(screen.getByRole('note', { name: 'Verification status' })).toHaveTextContent(/did not pass/i);
   });
 });

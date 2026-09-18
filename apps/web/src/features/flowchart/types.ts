@@ -29,5 +29,7 @@ export interface FlowchartViewProps {
    * fetches them through the shared API client. Additive to the spec 3.4 interface.
    */
   claims?: Claim[];
+  /** Set true to show the verification banner (spec section 4). Off by default. */
+  showVerification?: boolean;
 }
 
