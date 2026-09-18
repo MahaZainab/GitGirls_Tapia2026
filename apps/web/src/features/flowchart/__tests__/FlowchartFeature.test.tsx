@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import FlowchartFeature from "../index";
 import { setCurrentPassage } from "../../../shared/currentPassage";
+import { eventBus } from "../../../shared/eventBus";
 import { cloneFlow } from "./fixtures";
 
 afterEach(() => {
@@ -13,8 +14,30 @@ afterEach(() => {
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status });
 
 describe("Flowchart slot and Add material", () => {
-  it("shows the built-in passage until something is added", async () => {
+  it("always shows the fixed Chain Rule flowchart until something is added, with no network", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch");
     render(<FlowchartFeature />);
+    expect(screen.getByRole("img")).toHaveAccessibleName(/Applying the Chain Rule/);
+    expect(screen.getByRole("link", { name: "The Chain Rule" })).toHaveAttribute("href", expect.stringContaining("openstax.org"));
+    expect(screen.getByText(/CC BY-NC-SA 4.0/)).toBeInTheDocument();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("explains each Chain Rule box from the source and reveals the exact phrase", async () => {
+    const seen: unknown[] = [];
+    const off = eventBus.on("anchor.reveal", (payload) => seen.push(payload));
+    const user = userEvent.setup();
+    render(<FlowchartFeature />);
+    await user.click(screen.getByRole("button", { name: /Decision: Is h\(x\) of the form/ }));
+    expect(screen.getByText(/For all values of x for which the derivative is defined/)).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "See original text" }));
+    off();
+    expect(seen).toHaveLength(1);
+    expect((seen[0] as { anchor: { quote: string } }).anchor.quote).toBe("if h(x) = (g(x))^n");
+  });
+
+  it("still shows the built-in iam-01 flowchart when asked for it", async () => {
+    render(<FlowchartFeature passageId="iam-01" />);
     expect(await screen.findByRole("img")).toHaveAccessibleName(/How a request is evaluated/);
   });
 

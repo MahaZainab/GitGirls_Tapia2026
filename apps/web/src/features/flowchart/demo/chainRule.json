@@ -1,0 +1,470 @@
+{
+  "source": {
+    "schema_version": "1.0",
+    "passage_id": "chain-rule",
+    "title": "The Chain Rule (OpenStax Calculus Volume 1, section 3.6)",
+    "language": "en",
+    "text": "Let f and g be functions. For all x in the domain of g for which g is differentiable at x and f is differentiable at g(x), the derivative of the composite function h(x) = (f∘g)(x) = f(g(x)) is given by h′(x) = f′(g(x))g′(x). If y is a function of u, and u is a function of x, then dy/dx = dy/du · du/dx.\n\nTo differentiate h(x) = f(g(x)), begin by identifying f(x) and g(x). Find f′(x) and evaluate it at g(x) to obtain f′(g(x)). Find g′(x). Write h′(x) = f′(g(x)) · g′(x).\n\nFor all values of x for which the derivative is defined, if h(x) = (g(x))^n, then h′(x) = n(g(x))^(n−1) g′(x).",
+    "sentences": [
+      {
+        "id": "S1",
+        "start": 0,
+        "end": 25,
+        "text": "Let f and g be functions."
+      },
+      {
+        "id": "S2",
+        "start": 26,
+        "end": 224,
+        "text": "For all x in the domain of g for which g is differentiable at x and f is differentiable at g(x), the derivative of the composite function h(x) = (f∘g)(x) = f(g(x)) is given by h′(x) = f′(g(x))g′(x)."
+      },
+      {
+        "id": "S3",
+        "start": 225,
+        "end": 303,
+        "text": "If y is a function of u, and u is a function of x, then dy/dx = dy/du · du/dx."
+      },
+      {
+        "id": "S4",
+        "start": 305,
+        "end": 373,
+        "text": "To differentiate h(x) = f(g(x)), begin by identifying f(x) and g(x)."
+      },
+      {
+        "id": "S5",
+        "start": 374,
+        "end": 428,
+        "text": "Find f′(x) and evaluate it at g(x) to obtain f′(g(x))."
+      },
+      {
+        "id": "S6",
+        "start": 429,
+        "end": 440,
+        "text": "Find g′(x)."
+      },
+      {
+        "id": "S7",
+        "start": 441,
+        "end": 472,
+        "text": "Write h′(x) = f′(g(x)) · g′(x)."
+      },
+      {
+        "id": "S8",
+        "start": 474,
+        "end": 584,
+        "text": "For all values of x for which the derivative is defined, if h(x) = (g(x))^n, then h′(x) = n(g(x))^(n−1) g′(x)."
+      }
+    ]
+  },
+  "claims": {
+    "schema_version": "1.0",
+    "passage_id": "chain-rule",
+    "claims": [
+      {
+        "id": "C1",
+        "text": "Let f and g be functions.",
+        "sentence_ids": [
+          "S1"
+        ],
+        "must_keep": [],
+        "anchor": {
+          "sentence_id": "S1",
+          "start": 0,
+          "end": 25,
+          "quote": "Let f and g be functions."
+        }
+      },
+      {
+        "id": "C2",
+        "text": "For all x in the domain of g for which g is differentiable at x and f is differentiable at g(x), the derivative of the composite function h(x) = (f∘g)(x) = f(g(x)) is given by h′(x) = f′(g(x))g′(x).",
+        "sentence_ids": [
+          "S2"
+        ],
+        "must_keep": [],
+        "anchor": {
+          "sentence_id": "S2",
+          "start": 26,
+          "end": 224,
+          "quote": "For all x in the domain of g for which g is differentiable at x and f is differentiable at g(x), the derivative of the composite function h(x) = (f∘g)(x) = f(g(x)) is given by h′(x) = f′(g(x))g′(x)."
+        }
+      },
+      {
+        "id": "C3",
+        "text": "If y is a function of u, and u is a function of x, then dy/dx = dy/du · du/dx.",
+        "sentence_ids": [
+          "S3"
+        ],
+        "must_keep": [],
+        "anchor": {
+          "sentence_id": "S3",
+          "start": 225,
+          "end": 303,
+          "quote": "If y is a function of u, and u is a function of x, then dy/dx = dy/du · du/dx."
+        }
+      },
+      {
+        "id": "C4",
+        "text": "To differentiate h(x) = f(g(x)), begin by identifying f(x) and g(x).",
+        "sentence_ids": [
+          "S4"
+        ],
+        "must_keep": [],
+        "anchor": {
+          "sentence_id": "S4",
+          "start": 305,
+          "end": 373,
+          "quote": "To differentiate h(x) = f(g(x)), begin by identifying f(x) and g(x)."
+        }
+      },
+      {
+        "id": "C5",
+        "text": "Find f′(x) and evaluate it at g(x) to obtain f′(g(x)).",
+        "sentence_ids": [
+          "S5"
+        ],
+        "must_keep": [],
+        "anchor": {
+          "sentence_id": "S5",
+          "start": 374,
+          "end": 428,
+          "quote": "Find f′(x) and evaluate it at g(x) to obtain f′(g(x))."
+        }
+      },
+      {
+        "id": "C6",
+        "text": "Find g′(x).",
+        "sentence_ids": [
+          "S6"
+        ],
+        "must_keep": [],
+        "anchor": {
+          "sentence_id": "S6",
+          "start": 429,
+          "end": 440,
+          "quote": "Find g′(x)."
+        }
+      },
+      {
+        "id": "C7",
+        "text": "Write h′(x) = f′(g(x)) · g′(x).",
+        "sentence_ids": [
+          "S7"
+        ],
+        "must_keep": [],
+        "anchor": {
+          "sentence_id": "S7",
+          "start": 441,
+          "end": 472,
+          "quote": "Write h′(x) = f′(g(x)) · g′(x)."
+        }
+      },
+      {
+        "id": "C8",
+        "text": "For all values of x for which the derivative is defined, if h(x) = (g(x))^n, then h′(x) = n(g(x))^(n−1) g′(x).",
+        "sentence_ids": [
+          "S8"
+        ],
+        "must_keep": [],
+        "anchor": {
+          "sentence_id": "S8",
+          "start": 474,
+          "end": 584,
+          "quote": "For all values of x for which the derivative is defined, if h(x) = (g(x))^n, then h′(x) = n(g(x))^(n−1) g′(x)."
+        }
+      }
+    ]
+  },
+  "flow": {
+    "schema_version": "1.0",
+    "passage_id": "chain-rule",
+    "title": "Applying the Chain Rule",
+    "nodes": [
+      {
+        "id": "N1",
+        "kind": "terminal_start",
+        "label": "Differentiate a composite function h(x) = f(g(x))",
+        "tone": "neutral",
+        "claim_ids": [
+          "C2"
+        ]
+      },
+      {
+        "id": "N2",
+        "kind": "decision",
+        "label": "Is g differentiable at x and f differentiable at g(x)?",
+        "tone": "neutral",
+        "claim_ids": [
+          "C2"
+        ],
+        "anchor": {
+          "sentence_id": "S2",
+          "start": 65,
+          "end": 121,
+          "quote": "g is differentiable at x and f is differentiable at g(x)"
+        }
+      },
+      {
+        "id": "N3",
+        "kind": "decision",
+        "label": "Is h(x) of the form (g(x))^n?",
+        "tone": "neutral",
+        "claim_ids": [
+          "C8"
+        ],
+        "anchor": {
+          "sentence_id": "S8",
+          "start": 531,
+          "end": 549,
+          "quote": "if h(x) = (g(x))^n"
+        }
+      },
+      {
+        "id": "N4",
+        "kind": "process",
+        "label": "Use h′(x) = n(g(x))^(n−1) g′(x)",
+        "tone": "neutral",
+        "claim_ids": [
+          "C8"
+        ],
+        "anchor": {
+          "sentence_id": "S8",
+          "start": 556,
+          "end": 583,
+          "quote": "h′(x) = n(g(x))^(n−1) g′(x)"
+        }
+      },
+      {
+        "id": "N5",
+        "kind": "process",
+        "label": "Identify f(x) and g(x)",
+        "tone": "neutral",
+        "claim_ids": [
+          "C4"
+        ],
+        "anchor": {
+          "sentence_id": "S4",
+          "start": 338,
+          "end": 372,
+          "quote": "begin by identifying f(x) and g(x)"
+        }
+      },
+      {
+        "id": "N6",
+        "kind": "process",
+        "label": "Find f′(x) and evaluate it at g(x)",
+        "tone": "neutral",
+        "claim_ids": [
+          "C5"
+        ],
+        "anchor": {
+          "sentence_id": "S5",
+          "start": 374,
+          "end": 427,
+          "quote": "Find f′(x) and evaluate it at g(x) to obtain f′(g(x))"
+        }
+      },
+      {
+        "id": "N7",
+        "kind": "process",
+        "label": "Find g′(x)",
+        "tone": "neutral",
+        "claim_ids": [
+          "C6"
+        ],
+        "anchor": {
+          "sentence_id": "S6",
+          "start": 429,
+          "end": 439,
+          "quote": "Find g′(x)"
+        }
+      },
+      {
+        "id": "N8",
+        "kind": "process",
+        "label": "Write h′(x) = f′(g(x)) · g′(x)",
+        "tone": "neutral",
+        "claim_ids": [
+          "C7"
+        ],
+        "anchor": {
+          "sentence_id": "S7",
+          "start": 441,
+          "end": 471,
+          "quote": "Write h′(x) = f′(g(x)) · g′(x)"
+        }
+      },
+      {
+        "id": "N9",
+        "kind": "terminal_end",
+        "label": "Derivative h′(x) found",
+        "tone": "positive",
+        "claim_ids": [
+          "C2",
+          "C7"
+        ]
+      },
+      {
+        "id": "N10",
+        "kind": "terminal_end",
+        "label": "Chain Rule does not apply",
+        "tone": "negative",
+        "claim_ids": [
+          "C2"
+        ]
+      },
+      {
+        "id": "N11",
+        "kind": "note",
+        "label": "Alternative form: dy/dx = dy/du · du/dx",
+        "tone": "neutral",
+        "claim_ids": [
+          "C3"
+        ],
+        "anchor": {
+          "sentence_id": "S3",
+          "start": 225,
+          "end": 302,
+          "quote": "If y is a function of u, and u is a function of x, then dy/dx = dy/du · du/dx"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "E1",
+        "claim_ids": [
+          "C2"
+        ],
+        "basis": "stated",
+        "from": "N1",
+        "to": "N2"
+      },
+      {
+        "id": "E2",
+        "claim_ids": [
+          "C2",
+          "C8"
+        ],
+        "basis": "implied",
+        "label": "yes",
+        "rationale": "The theorem is stated for exactly these conditions, so the rules that follow are used once they hold.",
+        "from": "N2",
+        "to": "N3"
+      },
+      {
+        "id": "E3",
+        "claim_ids": [
+          "C2"
+        ],
+        "basis": "implied",
+        "label": "no",
+        "rationale": "The source states the rule only for these conditions and does not say what to do otherwise.",
+        "from": "N2",
+        "to": "N10"
+      },
+      {
+        "id": "E4",
+        "claim_ids": [
+          "C8"
+        ],
+        "basis": "stated",
+        "label": "yes",
+        "from": "N3",
+        "to": "N4"
+      },
+      {
+        "id": "E5",
+        "claim_ids": [
+          "C4"
+        ],
+        "basis": "implied",
+        "label": "no",
+        "rationale": "The power rule is a special case; the general strategy covers every other composite function.",
+        "from": "N3",
+        "to": "N5"
+      },
+      {
+        "id": "E6",
+        "claim_ids": [
+          "C4",
+          "C5"
+        ],
+        "basis": "stated",
+        "from": "N5",
+        "to": "N6"
+      },
+      {
+        "id": "E7",
+        "claim_ids": [
+          "C5",
+          "C6"
+        ],
+        "basis": "stated",
+        "from": "N6",
+        "to": "N7"
+      },
+      {
+        "id": "E8",
+        "claim_ids": [
+          "C6",
+          "C7"
+        ],
+        "basis": "stated",
+        "from": "N7",
+        "to": "N8"
+      },
+      {
+        "id": "E9",
+        "claim_ids": [
+          "C7"
+        ],
+        "basis": "stated",
+        "from": "N8",
+        "to": "N9"
+      },
+      {
+        "id": "E10",
+        "claim_ids": [
+          "C8"
+        ],
+        "basis": "stated",
+        "from": "N4",
+        "to": "N9"
+      }
+    ],
+    "verification": {
+      "status": "needs_human",
+      "checks": [
+        {
+          "name": "graph_invariants",
+          "layer": "code",
+          "status": "pass",
+          "detail": "V-F2 rules and anchors hold"
+        },
+        {
+          "name": "V-F2-06",
+          "layer": "code",
+          "status": "warn",
+          "detail": "edge E2: implied edge, route to human review"
+        },
+        {
+          "name": "V-F2-06",
+          "layer": "code",
+          "status": "warn",
+          "detail": "edge E3: implied edge, route to human review"
+        },
+        {
+          "name": "V-F2-06",
+          "layer": "code",
+          "status": "warn",
+          "detail": "edge E5: implied edge, route to human review"
+        },
+        {
+          "name": "auditor_entailment",
+          "layer": "auditor",
+          "status": "warn",
+          "detail": "No auditor ran, so whether each arrow follows from its cited claims was not machine-checked."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+# Flow summary for the fixed Chain Rule demo (OpenStax Calculus Volume 1, section 3.6).
+# Claim ids are one per sentence of the excerpt in web/src/features/flowchart/demo/chainRule.json.
+# See iam-01.txt for the format.
+
+title: Applying the Chain Rule
+passage: chain-rule
+
+start   start: Differentiate a composite function h(x) = f(g(x)) | C2
+ok?     decision: Is g differentiable at x and f differentiable at g(x)? | C2 | quote: g is differentiable at x and f is differentiable at g(x)
+power?  decision: Is h(x) of the form (g(x))^n? | C8 | quote: if h(x) = (g(x))^n
+power   step: Use h′(x) = n(g(x))^(n−1) g′(x) | C8 | quote: h′(x) = n(g(x))^(n−1) g′(x)
+ident   step: Identify f(x) and g(x) | C4 | quote: begin by identifying f(x) and g(x)
+fprime  step: Find f′(x) and evaluate it at g(x) | C5 | quote: Find f′(x) and evaluate it at g(x) to obtain f′(g(x))
+gprime  step: Find g′(x) | C6 | quote: Find g′(x)
+write   step: Write h′(x) = f′(g(x)) · g′(x) | C7 | quote: Write h′(x) = f′(g(x)) · g′(x)
+done    end (positive): Derivative h′(x) found | C2, C7
+stop    end (negative): Chain Rule does not apply | C2
+alt     note: Alternative form: dy/dx = dy/du · du/dx | C3 | quote: If y is a function of u, and u is a function of x, then dy/dx = dy/du · du/dx
+
+start -> ok? | C2
+ok? -yes-> power? | C2, C8 | implied: The theorem is stated for exactly these conditions, so the rules that follow are used once they hold.
+ok? -no-> stop | C2 | implied: The source states the rule only for these conditions and does not say what to do otherwise.
+power? -yes-> power | C8
+power? -no-> ident | C4 | implied: The power rule is a special case; the general strategy covers every other composite function.
+ident -> fprime | C4, C5
+fprime -> gprime | C5, C6
+gprime -> write | C6, C7
+write -> done | C7
+power -> done | C8
