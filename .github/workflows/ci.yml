@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r apps/api/requirements.txt
+      - name: Validate the shared fixture bundle
+        run: python tools/validate_bundle.py fixtures/iam-01
+      - name: Reference validator's own test suite
+        run: python tools/test_validator.py
+      - name: Backend tests
+        run: pytest -q
+        working-directory: apps/api
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+      - run: npx tsc -b
+        working-directory: apps/web
+      - run: npx vitest run
+        working-directory: apps/web
+      - run: npx vite build
+        working-directory: apps/web

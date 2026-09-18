@@ -1,0 +1,18 @@
+{
+  "state": "work",
+  "started_at": "2026-09-18T15:00:00Z",
+  "phase_started_at": "2026-09-18T15:00:00Z",
+  "phase_ends_at": "2026-09-18T15:25:00Z",
+  "cycles_completed": 0,
+  "rain_running": true,
+  "dnd_active": true,
+  "queued_notifications": [
+    {
+      "id": "n-102",
+      "created_at": "2026-09-18T15:07:12Z",
+      "category": "study",
+      "title": "Study group",
+      "body": "A new deck was shared."
+    }
+  ]
+}

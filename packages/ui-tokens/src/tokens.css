@@ -1,0 +1,60 @@
+/**
+ * Design tokens (spec section 2.7). Two themes on `:root[data-mode]`.
+ * FOUNDATION-owned, read-only for feature agents (spec A-02).
+ */
+:root[data-mode="regular"] {
+  --bg: #f2f7f7;
+  --surface: #ffffff;
+  --ink: #12292c;
+  --muted: #4a5e61;
+  --line: #c7d9d6;
+  --brand: #1b7a75;
+  --brand-ink: #ffffff;
+  --mark: #ffe29a;
+  --mark-active: #ffc857;
+  --accent: #f4a62a;
+}
+
+:root[data-mode="focus"] {
+  --bg: #0b1b1e;
+  --surface: #122a2e;
+  --ink: #e3efed;
+  --muted: #9db8b5;
+  --line: #264247;
+  --brand: #58c6bd;
+  --brand-ink: #062321;
+  --mark: #4e4116;
+  --mark-active: #7d5c0c;
+  --accent: #f4a62a;
+}
+
+:root {
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --font-family: "Lexend", system-ui, Verdana, sans-serif;
+  --text-scale: 1;
+}
+
+/* Dyslexia-friendly typography (F4 `display.dyslexia_typography`). */
+[data-dyslexia-typography="true"] {
+  letter-spacing: 0.03em;
+  word-spacing: 0.1em;
+  line-height: 1.85;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-family);
+  font-size: calc(1rem * var(--text-scale));
+  text-align: left;
+}
+
+/* X-01: every focusable control gets a visible ring. */
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}

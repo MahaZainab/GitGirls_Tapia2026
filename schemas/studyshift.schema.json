@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://studyshift.example/schema/v1.json",
+  "title": "StudyShift contracts v1",
+  "$defs": {
+    "SentenceId": {"type": "string", "pattern": "^S[0-9]+$"},
+    "ClaimId": {"type": "string", "pattern": "^C[0-9]+$"},
+    "SummaryId": {"type": "string", "pattern": "^M[0-9]+$"},
+    "PointerId": {"type": "string", "pattern": "^P[0-9]+$"},
+    "ExampleId": {"type": "string", "pattern": "^X[0-9]+$"},
+    "NodeId": {"type": "string", "pattern": "^N[0-9]+$"},
+    "EdgeId": {"type": "string", "pattern": "^E[0-9]+$"},
+    "StepId": {"type": "string", "pattern": "^A[0-9]+$"},
+    "Anchor": {
+      "type": "object",
+      "properties": {
+        "sentence_id": {"$ref": "#/$defs/SentenceId"},
+        "start": {"type": "integer", "minimum": 0},
+        "end": {"type": "integer", "minimum": 1},
+        "quote": {"type": "string", "minLength": 1, "maxLength": 400}
+      },
+      "required": ["sentence_id", "start", "end", "quote"],
+      "additionalProperties": false
+    },
+    "Sentence": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/SentenceId"},
+        "start": {"type": "integer", "minimum": 0},
+        "end": {"type": "integer", "minimum": 1},
+        "text": {"type": "string", "minLength": 1}
+      },
+      "required": ["id", "start", "end", "text"],
+      "additionalProperties": false
+    },
+    "Source": {
+      "type": "object",
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "passage_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "language": {"type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$"},
+        "text": {"type": "string", "minLength": 1},
+        "sentences": {"type": "array", "items": {"$ref": "#/$defs/Sentence"}, "minItems": 1}
+      },
+      "required": ["schema_version", "passage_id", "title", "language", "text", "sentences"],
+      "additionalProperties": false
+    },
+    "Claim": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/ClaimId"},
+        "text": {"type": "string", "minLength": 1},
+        "sentence_ids": {"type": "array", "items": {"$ref": "#/$defs/SentenceId"}, "minItems": 1},
+        "anchor": {"$ref": "#/$defs/Anchor"},
+        "must_keep": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "required": ["id", "text", "sentence_ids", "anchor", "must_keep"],
+      "additionalProperties": false
+    },
+    "ClaimList": {
+      "type": "object",
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "passage_id": {"type": "string", "minLength": 1},
+        "claims": {"type": "array", "items": {"$ref": "#/$defs/Claim"}, "minItems": 1}
+      },
+      "required": ["schema_version", "passage_id", "claims"],
+      "additionalProperties": false
+    },
+    "Check": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"},
+        "layer": {"enum": ["code", "auditor", "human"]},
+        "status": {"enum": ["pass", "warn", "fail"]},
+        "detail": {"type": "string"}
+      },
+      "required": ["name", "layer", "status", "detail"],
+      "additionalProperties": false
+    },
+    "VerificationReport": {
+      "type": "object",
+      "properties": {
+        "status": {"enum": ["passed", "failed", "needs_human"]},
+        "checks": {"type": "array", "items": {"$ref": "#/$defs/Check"}}
+      },
+      "required": ["status", "checks"],
+      "additionalProperties": false
+    },
+    "SummarySentence": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/SummaryId"},
+        "text": {"type": "string", "minLength": 1},
+        "claim_ids": {"type": "array", "items": {"$ref": "#/$defs/ClaimId"}, "minItems": 1},
+        "pointer_ids": {"type": "array", "items": {"$ref": "#/$defs/PointerId"}}
+      },
+      "required": ["id", "text", "claim_ids", "pointer_ids"],
+      "additionalProperties": false
+    },
+    "Pointer": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/PointerId"},
+        "order": {"type": "integer", "minimum": 1},
+        "title": {"type": "string", "minLength": 1, "maxLength": 80},
+        "summary": {"type": "string", "minLength": 1, "maxLength": 400},
+        "anchor": {"$ref": "#/$defs/Anchor"},
+        "claim_ids": {"type": "array", "items": {"$ref": "#/$defs/ClaimId"}, "minItems": 1}
+      },
+      "required": ["id", "order", "title", "summary", "anchor", "claim_ids"],
+      "additionalProperties": false
+    },
+    "Example": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/ExampleId"},
+        "kind": {"enum": ["analogy", "worked_example", "scenario"]},
+        "title": {"type": "string", "minLength": 1, "maxLength": 80},
+        "body": {"type": "string", "minLength": 1, "maxLength": 600},
+        "related_pointer_ids": {"type": "array", "items": {"$ref": "#/$defs/PointerId"}},
+        "claim_ids": {"type": "array", "items": {"$ref": "#/$defs/ClaimId"}, "minItems": 1},
+        "is_source_content": {"const": false},
+        "derived_numbers": {"type": "array", "items": {"type": "string"}}
+      },
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "body",
+        "related_pointer_ids",
+        "claim_ids",
+        "is_source_content",
+        "derived_numbers"
+      ],
+      "additionalProperties": false
+    },
+    "SummaryBundle": {
+      "type": "object",
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "passage_id": {"type": "string", "minLength": 1},
+        "summary": {"type": "array", "items": {"$ref": "#/$defs/SummarySentence"}, "minItems": 1},
+        "pointers": {"type": "array", "items": {"$ref": "#/$defs/Pointer"}, "minItems": 1},
+        "examples": {"type": "array", "items": {"$ref": "#/$defs/Example"}},
+        "verification": {"$ref": "#/$defs/VerificationReport"}
+      },
+      "required": ["schema_version", "passage_id", "summary", "pointers", "examples", "verification"],
+      "additionalProperties": false
+    },
+    "FlowNode": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/NodeId"},
+        "kind": {"enum": ["terminal_start", "terminal_end", "process", "decision", "note"]},
+        "label": {"type": "string", "minLength": 1, "maxLength": 100},
+        "detail": {"type": "string", "maxLength": 300},
+        "tone": {"enum": ["neutral", "positive", "negative"]},
+        "claim_ids": {"type": "array", "items": {"$ref": "#/$defs/ClaimId"}, "minItems": 1},
+        "anchor": {"$ref": "#/$defs/Anchor"}
+      },
+      "required": ["id", "kind", "label", "tone", "claim_ids"],
+      "additionalProperties": false
+    },
+    "FlowEdge": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/EdgeId"},
+        "from": {"$ref": "#/$defs/NodeId"},
+        "to": {"$ref": "#/$defs/NodeId"},
+        "label": {"type": "string", "maxLength": 40},
+        "claim_ids": {"type": "array", "items": {"$ref": "#/$defs/ClaimId"}, "minItems": 1},
+        "basis": {"enum": ["stated", "implied"]},
+        "rationale": {"type": "string", "maxLength": 300}
+      },
+      "required": ["id", "from", "to", "claim_ids", "basis"],
+      "additionalProperties": false
+    },
+    "FlowGraph": {
+      "type": "object",
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "passage_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "nodes": {"type": "array", "items": {"$ref": "#/$defs/FlowNode"}, "minItems": 2},
+        "edges": {"type": "array", "items": {"$ref": "#/$defs/FlowEdge"}, "minItems": 1},
+        "verification": {"$ref": "#/$defs/VerificationReport"}
+      },
+      "required": ["schema_version", "passage_id", "title", "nodes", "edges", "verification"],
+      "additionalProperties": false
+    },
+    "AnimationStep": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/StepId"},
+        "order": {"type": "integer", "minimum": 1},
+        "focus_node_ids": {"type": "array", "items": {"$ref": "#/$defs/NodeId"}},
+        "focus_edge_ids": {"type": "array", "items": {"$ref": "#/$defs/EdgeId"}},
+        "caption": {"type": "string", "minLength": 1, "maxLength": 200},
+        "claim_ids": {"type": "array", "items": {"$ref": "#/$defs/ClaimId"}, "minItems": 1},
+        "anchor": {"$ref": "#/$defs/Anchor"},
+        "suggested_duration_ms": {"type": "integer", "minimum": 800, "maximum": 10000},
+        "hypothetical": {"type": "boolean"}
+      },
+      "required": [
+        "id",
+        "order",
+        "focus_node_ids",
+        "focus_edge_ids",
+        "caption",
+        "claim_ids",
+        "suggested_duration_ms",
+        "hypothetical"
+      ],
+      "additionalProperties": false
+    },
+    "AnimationScript": {
+      "type": "object",
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "passage_id": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["walkthrough", "scenario"]},
+        "title": {"type": "string", "minLength": 1},
+        "scenario_premise": {"type": "string", "maxLength": 300},
+        "path_edge_ids": {"type": "array", "items": {"$ref": "#/$defs/EdgeId"}},
+        "steps": {"type": "array", "items": {"$ref": "#/$defs/AnimationStep"}, "minItems": 1},
+        "verification": {"$ref": "#/$defs/VerificationReport"}
+      },
+      "required": ["schema_version", "passage_id", "kind", "title", "path_edge_ids", "steps", "verification"],
+      "additionalProperties": false
+    },
+    "UserPreferences": {
+      "type": "object",
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "mode": {"enum": ["regular", "focus"]},
+        "supports": {
+          "type": "object",
+          "properties": {"adhd": {"type": "boolean"}, "dyslexia": {"type": "boolean"}},
+          "required": ["adhd", "dyslexia"],
+          "additionalProperties": false
+        },
+        "display": {
+          "type": "object",
+          "properties": {
+            "text_scale": {"type": "number", "minimum": 0.9, "maximum": 1.6},
+            "motion": {"enum": ["full", "reduced", "off"]},
+            "line_focus": {"type": "boolean"},
+            "dyslexia_typography": {"type": "boolean"}
+          },
+          "required": ["text_scale", "motion", "line_focus", "dyslexia_typography"],
+          "additionalProperties": false
+        },
+        "focus": {
+          "type": "object",
+          "properties": {
+            "pomodoro": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "visible": {"type": "boolean"},
+                "allow_peek": {"type": "boolean"},
+                "work_minutes": {"type": "integer", "minimum": 5, "maximum": 90},
+                "break_minutes": {"type": "integer", "minimum": 1, "maximum": 30},
+                "nudge": {"enum": ["chime", "visual", "both", "none"]}
+              },
+              "required": ["enabled", "visible", "allow_peek", "work_minutes", "break_minutes", "nudge"],
+              "additionalProperties": false
+            },
+            "rain": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "volume": {"type": "number", "minimum": 0, "maximum": 1},
+                "during_break": {"enum": ["continue", "pause"]}
+              },
+              "required": ["enabled", "volume", "during_break"],
+              "additionalProperties": false
+            },
+            "dnd": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "hold_in_app_notifications": {"type": "boolean"},
+                "digest_on_end": {"type": "boolean"}
+              },
+              "required": ["enabled", "hold_in_app_notifications", "digest_on_end"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["pomodoro", "rain", "dnd"],
+          "additionalProperties": false
+        },
+        "storage": {
+          "type": "object",
+          "properties": {"sync": {"enum": ["account", "device_only"]}},
+          "required": ["sync"],
+          "additionalProperties": false
+        },
+        "updated_at": {"type": "string", "format": "date-time"}
+      },
+      "required": ["schema_version", "mode", "supports", "display", "focus", "storage", "updated_at"],
+      "additionalProperties": false
+    },
+    "NotificationItem": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "category": {"enum": ["study", "social", "reminder", "system", "security"]},
+        "title": {"type": "string", "minLength": 1},
+        "body": {"type": "string"}
+      },
+      "required": ["id", "created_at", "category", "title", "body"],
+      "additionalProperties": false
+    },
+    "FocusSessionState": {
+      "type": "object",
+      "properties": {
+        "state": {"enum": ["idle", "work", "break", "ended"]},
+        "started_at": {"type": "string", "format": "date-time"},
+        "phase_started_at": {"type": "string", "format": "date-time"},
+        "phase_ends_at": {"type": "string", "format": "date-time"},
+        "cycles_completed": {"type": "integer", "minimum": 0},
+        "rain_running": {"type": "boolean"},
+        "dnd_active": {"type": "boolean"},
+        "queued_notifications": {"type": "array", "items": {"$ref": "#/$defs/NotificationItem"}}
+      },
+      "required": ["state", "cycles_completed", "rain_running", "dnd_active", "queued_notifications"],
+      "additionalProperties": false
+    },
+    "EventEnvelope": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "anchor.reveal",
+            "pointer.activated",
+            "flow.node.selected",
+            "animation.step.changed",
+            "prefs.changed",
+            "focus.session.started",
+            "focus.session.phase_changed",
+            "focus.session.ended",
+            "notification.suppressed",
+            "contract.violation"
+          ]
+        },
+        "at": {"type": "string", "format": "date-time"},
+        "payload": {"type": "object"}
+      },
+      "required": ["type", "at", "payload"],
+      "additionalProperties": false
+    },
+    "CompletionReport": {
+      "type": "object",
+      "properties": {
+        "feature_id": {"enum": ["F1", "F2", "F3", "F4"]},
+        "track": {"enum": ["UI", "GEN", "BACKEND", "BOTH"]},
+        "status": {"enum": ["complete", "partial", "blocked"]},
+        "files_changed": {"type": "array", "items": {"type": "string"}},
+        "requirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string", "pattern": "^F[1-4]-[RG][0-9]{2}$"},
+              "status": {"enum": ["met", "partial", "not_met"]},
+              "evidence": {"type": "string"}
+            },
+            "required": ["id", "status", "evidence"],
+            "additionalProperties": false
+          }
+        },
+        "tests": {
+          "type": "object",
+          "properties": {"added": {"type": "integer", "minimum": 0}, "passing": {"type": "integer", "minimum": 0}},
+          "required": ["added", "passing"],
+          "additionalProperties": false
+        },
+        "contract_change_requests": {"type": "array", "items": {"type": "string"}},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "known_issues": {"type": "array", "items": {"type": "string"}}
+      },
+      "required": [
+        "feature_id",
+        "track",
+        "status",
+        "files_changed",
+        "requirements",
+        "tests",
+        "contract_change_requests",
+        "assumptions",
+        "known_issues"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

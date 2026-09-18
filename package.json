@@ -1,0 +1,19 @@
+{
+  "name": "studyshift",
+  "private": true,
+  "version": "1.0.0",
+  "description": "StudyShift monorepo. See agent-documents/StudyShift_Agent_Spec.md.",
+  "workspaces": [
+    "apps/web",
+    "packages/contracts",
+    "packages/ui-tokens"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace apps/web",
+    "build": "npm run build --workspace apps/web",
+    "test:web": "npm run test --workspace apps/web",
+    "test:api": "cd apps/api && pytest -q",
+    "api:dev": "cd apps/api && uvicorn app.main:app --reload --port 8000",
+    "validate:fixture": "python tools/validate_bundle.py fixtures/iam-01"
+  }
+}

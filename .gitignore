@@ -1,0 +1,24 @@
+# Node / web
+node_modules/
+apps/web/dist/
+apps/web/coverage/
+apps/web/.tsbuild/
+packages/*/dist/
+*.tsbuildinfo
+
+# Python / api
+apps/api/**/__pycache__/
+apps/api/.pytest_cache/
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Env files
+.env
+.env.local

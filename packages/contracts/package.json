@@ -1,0 +1,9 @@
+{
+  "name": "@studyshift/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FOUNDATION-owned, read-only for feature agents (spec A-02). Types, JSON Schema and shared fixtures.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts"
+}

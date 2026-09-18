@@ -1,0 +1,12 @@
+{
+  "name": "@studyshift/ui-tokens",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FOUNDATION-owned, read-only for feature agents (spec A-02). Themes, motion tokens, motion policy hook.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "peerDependencies": {
+    "react": "^18.3.0"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "passage_id": "iam-01",
+  "claims": [
+    {
+      "id": "C1",
+      "text": "AWS evaluates the applicable policies to decide whether to allow or deny a request.",
+      "sentence_ids": ["S1"],
+      "anchor": {
+        "sentence_id": "S1",
+        "start": 34,
+        "end": 111,
+        "quote": "AWS evaluates the policies that apply and decides whether to allow or deny it"
+      },
+      "must_keep": []
+    },
+    {
+      "id": "C2",
+      "text": "Every request is denied by default.",
+      "sentence_ids": ["S2"],
+      "anchor": {"sentence_id": "S2", "start": 113, "end": 149, "quote": "By default, every request is denied."},
+      "must_keep": ["default"]
+    },
+    {
+      "id": "C3",
+      "text": "The default denial is called an implicit deny.",
+      "sentence_ids": ["S3"],
+      "anchor": {"sentence_id": "S3", "start": 150, "end": 182, "quote": "This is called an implicit deny."},
+      "must_keep": ["implicit deny"]
+    },
+    {
+      "id": "C4",
+      "text": "The account root user has full access by default.",
+      "sentence_ids": ["S4"],
+      "anchor": {
+        "sentence_id": "S4",
+        "start": 183,
+        "end": 261,
+        "quote": "The account root user is the exception, because it has full access by default."
+      },
+      "must_keep": ["root user", "full access"]
+    },
+    {
+      "id": "C5",
+      "text": "AWS first checks all applicable policies for an explicit deny.",
+      "sentence_ids": ["S5"],
+      "anchor": {
+        "sentence_id": "S5",
+        "start": 263,
+        "end": 325,
+        "quote": "AWS first checks all applicable policies for an explicit deny."
+      },
+      "must_keep": ["first", "explicit deny"]
+    },
+    {
+      "id": "C6",
+      "text": "An explicit deny in any policy makes the final decision deny, even if another policy allows the request.",
+      "sentence_ids": ["S6"],
+      "anchor": {
+        "sentence_id": "S6",
+        "start": 397,
+        "end": 459,
+        "quote": "the final decision is deny, even when another policy allows it"
+      },
+      "must_keep": ["explicit", "deny"]
+    },
+    {
+      "id": "C7",
+      "text": "If there is no explicit deny, AWS looks for an allow.",
+      "sentence_ids": ["S7"],
+      "anchor": {
+        "sentence_id": "S7",
+        "start": 461,
+        "end": 514,
+        "quote": "If there is no explicit deny, AWS looks for an allow."
+      },
+      "must_keep": ["no explicit deny", "allow"]
+    },
+    {
+      "id": "C8",
+      "text": "A request is allowed only if at least one applicable policy contains an explicit allow.",
+      "sentence_ids": ["S8"],
+      "anchor": {
+        "sentence_id": "S8",
+        "start": 515,
+        "end": 602,
+        "quote": "A request is allowed only if at least one applicable policy contains an explicit allow."
+      },
+      "must_keep": ["only", "explicit allow"]
+    },
+    {
+      "id": "C9",
+      "text": "If no policy allows the request, the implicit deny stands and the request is denied.",
+      "sentence_ids": ["S9"],
+      "anchor": {
+        "sentence_id": "S9",
+        "start": 603,
+        "end": 687,
+        "quote": "If no policy allows the request, the implicit deny stands and the request is denied."
+      },
+      "must_keep": ["no policy", "implicit deny"]
+    },
+    {
+      "id": "C10",
+      "text": "Some policy types act as guardrails.",
+      "sentence_ids": ["S10"],
+      "anchor": {"sentence_id": "S10", "start": 689, "end": 725, "quote": "Some policy types act as guardrails."},
+      "must_keep": ["guardrails"]
+    },
+    {
+      "id": "C11",
+      "text": "Service control policies, permission boundaries and session policies never grant permissions by themselves.",
+      "sentence_ids": ["S11"],
+      "anchor": {
+        "sentence_id": "S11",
+        "start": 726,
+        "end": 834,
+        "quote": "Service control policies, permission boundaries, and session policies never grant permissions by themselves."
+      },
+      "must_keep": ["never"]
+    },
+    {
+      "id": "C12",
+      "text": "These policy types only set a maximum.",
+      "sentence_ids": ["S12"],
+      "anchor": {"sentence_id": "S12", "start": 835, "end": 859, "quote": "They only set a maximum."},
+      "must_keep": ["only", "maximum"]
+    },
+    {
+      "id": "C13",
+      "text": "A request must be allowed by a granting policy and must also fall inside each applicable guardrail.",
+      "sentence_ids": ["S13"],
+      "anchor": {
+        "sentence_id": "S13",
+        "start": 860,
+        "end": 999,
+        "quote": "When one applies, the request must be allowed by a policy that grants permission, and it must also fall inside each guardrail that applies."
+      },
+      "must_keep": ["must", "each"]
+    },
+    {
+      "id": "C14",
+      "text": "If a guardrail does not allow the action, the request is denied.",
+      "sentence_ids": ["S14"],
+      "anchor": {
+        "sentence_id": "S14",
+        "start": 1000,
+        "end": 1064,
+        "quote": "If a guardrail does not allow the action, the request is denied."
+      },
+      "must_keep": ["not", "denied"]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "passage_id": "iam-01",
+  "title": "How AWS decides to allow or deny a request",
+  "language": "en",
+  "text": "When a principal makes a request, AWS evaluates the policies that apply and decides whether to allow or deny it. By default, every request is denied. This is called an implicit deny. The account root user is the exception, because it has full access by default.\n\nAWS first checks all applicable policies for an explicit deny. If any policy contains a statement that explicitly denies the request, the final decision is deny, even when another policy allows it. If there is no explicit deny, AWS looks for an allow. A request is allowed only if at least one applicable policy contains an explicit allow. If no policy allows the request, the implicit deny stands and the request is denied.\n\nSome policy types act as guardrails. Service control policies, permission boundaries, and session policies never grant permissions by themselves. They only set a maximum. When one applies, the request must be allowed by a policy that grants permission, and it must also fall inside each guardrail that applies. If a guardrail does not allow the action, the request is denied.",
+  "sentences": [
+    {
+      "id": "S1",
+      "start": 0,
+      "end": 112,
+      "text": "When a principal makes a request, AWS evaluates the policies that apply and decides whether to allow or deny it."
+    },
+    {"id": "S2", "start": 113, "end": 149, "text": "By default, every request is denied."},
+    {"id": "S3", "start": 150, "end": 182, "text": "This is called an implicit deny."},
+    {
+      "id": "S4",
+      "start": 183,
+      "end": 261,
+      "text": "The account root user is the exception, because it has full access by default."
+    },
+    {
+      "id": "S5",
+      "start": 263,
+      "end": 325,
+      "text": "AWS first checks all applicable policies for an explicit deny."
+    },
+    {
+      "id": "S6",
+      "start": 326,
+      "end": 460,
+      "text": "If any policy contains a statement that explicitly denies the request, the final decision is deny, even when another policy allows it."
+    },
+    {"id": "S7", "start": 461, "end": 514, "text": "If there is no explicit deny, AWS looks for an allow."},
+    {
+      "id": "S8",
+      "start": 515,
+      "end": 602,
+      "text": "A request is allowed only if at least one applicable policy contains an explicit allow."
+    },
+    {
+      "id": "S9",
+      "start": 603,
+      "end": 687,
+      "text": "If no policy allows the request, the implicit deny stands and the request is denied."
+    },
+    {"id": "S10", "start": 689, "end": 725, "text": "Some policy types act as guardrails."},
+    {
+      "id": "S11",
+      "start": 726,
+      "end": 834,
+      "text": "Service control policies, permission boundaries, and session policies never grant permissions by themselves."
+    },
+    {"id": "S12", "start": 835, "end": 859, "text": "They only set a maximum."},
+    {
+      "id": "S13",
+      "start": 860,
+      "end": 999,
+      "text": "When one applies, the request must be allowed by a policy that grants permission, and it must also fall inside each guardrail that applies."
+    },
+    {
+      "id": "S14",
+      "start": 1000,
+      "end": 1064,
+      "text": "If a guardrail does not allow the action, the request is denied."
+    }
+  ]
+}

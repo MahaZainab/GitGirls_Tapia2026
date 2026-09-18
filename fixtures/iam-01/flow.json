@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "passage_id": "iam-01",
+  "title": "How a request is evaluated",
+  "nodes": [
+    {"id": "N1", "kind": "terminal_start", "label": "Request arrives", "tone": "neutral", "claim_ids": ["C1"]},
+    {
+      "id": "N2",
+      "kind": "decision",
+      "label": "Explicit deny in any policy?",
+      "tone": "neutral",
+      "claim_ids": ["C5"],
+      "anchor": {
+        "sentence_id": "S5",
+        "start": 263,
+        "end": 325,
+        "quote": "AWS first checks all applicable policies for an explicit deny."
+      }
+    },
+    {
+      "id": "N3",
+      "kind": "decision",
+      "label": "Explicit allow in a policy?",
+      "tone": "neutral",
+      "claim_ids": ["C8"],
+      "anchor": {
+        "sentence_id": "S8",
+        "start": 515,
+        "end": 602,
+        "quote": "A request is allowed only if at least one applicable policy contains an explicit allow."
+      }
+    },
+    {
+      "id": "N4",
+      "kind": "decision",
+      "label": "Inside every guardrail that applies?",
+      "tone": "neutral",
+      "claim_ids": ["C13"],
+      "anchor": {
+        "sentence_id": "S13",
+        "start": 946,
+        "end": 998,
+        "quote": "it must also fall inside each guardrail that applies"
+      }
+    },
+    {"id": "N5", "kind": "terminal_end", "label": "Allowed", "tone": "positive", "claim_ids": ["C8", "C13"]},
+    {"id": "N6", "kind": "terminal_end", "label": "Denied", "tone": "negative", "claim_ids": ["C2"]},
+    {
+      "id": "N7",
+      "kind": "note",
+      "label": "Root user: full access by default",
+      "tone": "neutral",
+      "claim_ids": ["C4"],
+      "anchor": {
+        "sentence_id": "S4",
+        "start": 183,
+        "end": 261,
+        "quote": "The account root user is the exception, because it has full access by default."
+      }
+    }
+  ],
+  "edges": [
+    {"id": "E1", "from": "N1", "to": "N2", "claim_ids": ["C5"], "basis": "stated"},
+    {"id": "E2", "from": "N2", "to": "N6", "label": "yes", "claim_ids": ["C6"], "basis": "stated"},
+    {"id": "E3", "from": "N2", "to": "N3", "label": "no", "claim_ids": ["C7"], "basis": "stated"},
+    {
+      "id": "E4",
+      "from": "N3",
+      "to": "N4",
+      "label": "yes",
+      "claim_ids": ["C8", "C13"],
+      "basis": "implied",
+      "rationale": "The source requires both an explicit allow and fitting inside each guardrail. The order shown is a presentation choice."
+    },
+    {"id": "E5", "from": "N3", "to": "N6", "label": "no", "claim_ids": ["C9"], "basis": "stated"},
+    {"id": "E6", "from": "N4", "to": "N5", "label": "yes", "claim_ids": ["C13"], "basis": "stated"},
+    {"id": "E7", "from": "N4", "to": "N6", "label": "no", "claim_ids": ["C14"], "basis": "stated"}
+  ],
+  "verification": {
+    "status": "needs_human",
+    "checks": [
+      {
+        "name": "graph_invariants",
+        "layer": "code",
+        "status": "pass",
+        "detail": "single start, all nodes reachable, decisions labelled"
+      },
+      {
+        "name": "edge_basis",
+        "layer": "code",
+        "status": "warn",
+        "detail": "E4 is implied and needs human review"
+      },
+      {"name": "auditor_entailment", "layer": "auditor", "status": "pass", "detail": "no unsupported edges"}
+    ]
+  }
+}
