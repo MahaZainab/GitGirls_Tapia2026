@@ -1,0 +1,308 @@
+/* Flowchart (F2). Uses the shared design tokens (spec 2.7) with fallbacks so it also renders standalone. */
+.fc {
+  --fc-ink: var(--ink, #12292c);
+  --fc-muted: var(--muted, #4a5e61);
+  --fc-surface: var(--surface, #fff);
+  --fc-bg: var(--bg, #f2f7f7);
+  --fc-brand: var(--brand, #1b7a75);
+  --fc-brand-ink: var(--brand-ink, #fff);
+  --fc-line: var(--line, #c7d9d6);
+  --fc-positive: var(--fc-brand);
+  --fc-negative: #b3261e;
+  --fc-ease: var(--ease, cubic-bezier(0.2, 0.7, 0.2, 1));
+  color: var(--fc-ink);
+  font-family: Lexend, system-ui, Verdana, sans-serif;
+  text-align: left;
+}
+:root[data-mode='focus'] .fc {
+  --fc-negative: #ff8a80;
+}
+
+.fc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.fc-muted {
+  color: var(--fc-muted);
+}
+
+.fc__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+/* controls */
+.fc__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0.75rem 0;
+}
+.fc__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.fc__zoom {
+  min-width: 3.5ch;
+  text-align: center;
+  color: var(--fc-muted);
+}
+.fc-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.4rem 0.9rem;
+  border: 2px solid var(--fc-muted);
+  border-radius: 8px;
+  background: var(--fc-surface);
+  color: var(--fc-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.fc-btn[aria-pressed='true'] {
+  background: var(--fc-brand);
+  border-color: var(--fc-brand);
+  color: var(--fc-brand-ink);
+  font-weight: 600;
+}
+.fc-btn--primary {
+  background: var(--fc-brand);
+  border-color: var(--fc-brand);
+  color: var(--fc-brand-ink);
+  font-weight: 600;
+}
+.fc-btn:disabled {
+  opacity: 1;
+  color: var(--fc-muted);
+  border-style: dashed;
+  cursor: default;
+}
+.fc-btn:focus-visible,
+.fc__scroll:focus-visible,
+.fc__hit:focus-visible {
+  outline: 3px solid var(--fc-ink);
+  outline-offset: 3px;
+}
+
+/* verification banner */
+.fc-banner {
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--fc-muted);
+  border-left-width: 8px;
+  border-radius: 8px;
+  background: var(--fc-surface);
+}
+.fc-banner--failed {
+  border-color: var(--fc-negative);
+}
+.fc-banner__title {
+  margin: 0;
+  font-weight: 700;
+}
+.fc-banner__body,
+.fc-banner__list {
+  margin: 0.25rem 0 0;
+}
+.fc-banner__list {
+  padding-left: 1.25rem;
+}
+.fc-message {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--fc-muted);
+  border-radius: 8px;
+  background: var(--fc-surface);
+}
+
+/* scroll region, stage, hit targets */
+.fc__scroll {
+  overflow: auto;
+  max-height: 80vh;
+  border: 2px solid var(--fc-line);
+  border-radius: 8px;
+  background: var(--fc-surface);
+  cursor: grab;
+  touch-action: pan-x pan-y;
+}
+.fc__scroll:active {
+  cursor: grabbing;
+}
+.fc__sizer {
+  margin: 0 auto;
+}
+.fc__stage {
+  position: relative;
+}
+.fc__svg {
+  display: block;
+}
+.fc__hits {
+  position: absolute;
+  inset: 0;
+}
+.fc__hit {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* edges */
+.fc-edge {
+  fill: none;
+  stroke: var(--fc-muted);
+  stroke-width: 2;
+}
+.fc-edge--implied {
+  stroke-dasharray: 7 5;
+}
+.fc-edge.is-active {
+  stroke: var(--fc-ink);
+  stroke-width: 4.5;
+}
+.fc-arrow path {
+  fill: var(--fc-muted);
+}
+.fc-arrow--active path {
+  fill: var(--fc-ink);
+}
+.fc-edge-label rect {
+  fill: var(--fc-surface);
+  stroke: var(--fc-line);
+}
+.fc-edge-label text {
+  fill: var(--fc-ink);
+  font-size: 15px;
+}
+.fc-legend {
+  margin: 0.5rem 0;
+  color: var(--fc-muted);
+  font-size: 0.9rem;
+}
+
+/* nodes: shape by kind, tone by stroke + a glyph in the text, emphasis by ring + weight */
+.fc-node__shape {
+  fill: var(--fc-surface);
+  stroke: var(--fc-muted);
+  stroke-width: 2;
+}
+.fc-node--positive .fc-node__shape {
+  stroke: var(--fc-positive);
+  stroke-width: 3;
+}
+.fc-node--negative .fc-node__shape {
+  stroke: var(--fc-negative);
+  stroke-width: 3;
+}
+.fc-node--terminal_start .fc-node__shape {
+  fill: var(--fc-brand);
+  stroke: var(--fc-brand);
+}
+.fc-node--terminal_start .fc-node__text {
+  fill: var(--fc-brand-ink);
+}
+.fc-node--note .fc-node__shape {
+  stroke-dasharray: 6 4;
+  fill: var(--fc-bg);
+}
+.fc-node__text {
+  fill: var(--fc-ink);
+  font-size: 16px;
+  pointer-events: none;
+}
+.fc-node__ring {
+  fill: none;
+  stroke: var(--fc-ink);
+  stroke-width: 3;
+}
+.fc-node.is-emphasized .fc-node__shape {
+  stroke: var(--fc-ink);
+  stroke-width: 4;
+}
+.fc-node.is-emphasized .fc-node__text {
+  font-weight: 700;
+}
+.fc-node--terminal_start.is-emphasized .fc-node__text {
+  fill: var(--fc-brand-ink);
+}
+
+/* emphasis changes follow the motion policy (F2-R07) */
+.fc[data-motion='full'] :is(.fc-node__shape, .fc-node__ring, .fc-edge, .fc-node__text) {
+  transition: stroke var(--motion-base, 200ms) var(--fc-ease), stroke-width var(--motion-base, 200ms) var(--fc-ease),
+    fill var(--motion-base, 200ms) var(--fc-ease);
+}
+.fc[data-motion='reduced'] :is(.fc-node__shape, .fc-node__ring, .fc-edge) {
+  transition: stroke var(--motion-fast, 120ms) linear, stroke-width var(--motion-fast, 120ms) linear;
+}
+.fc[data-motion='off'] * {
+  transition: none;
+}
+
+/* detail panel */
+.fc-panel {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 2px solid var(--fc-brand);
+  border-radius: 8px;
+  background: var(--fc-surface);
+}
+.fc-panel__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.fc-panel__kind,
+.fc-panel__subhead {
+  margin: 0;
+  color: var(--fc-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.fc-panel__title {
+  margin: 0.15rem 0 0;
+  font-size: 1.15rem;
+}
+.fc-panel__detail {
+  margin: 0.75rem 0 0;
+}
+.fc-panel__claims {
+  margin: 0.75rem 0;
+}
+.fc-panel__list {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+/* text version */
+.fc-text {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+.fc-text__item {
+  margin: 0 0 0.9rem;
+  padding-left: 0.25rem;
+}
+.fc-text__label,
+.fc-text__detail,
+.fc-text__branch {
+  margin: 0.15rem 0;
+}
+.fc-text__kind {
+  font-weight: 700;
+}
+.fc-text__tone,
+.fc-text__detail {
+  color: var(--fc-muted);
+}
+.fc-text__branch {
+  padding-left: 1rem;
+}

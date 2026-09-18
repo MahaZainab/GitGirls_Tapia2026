@@ -16,6 +16,7 @@
 import { useId, useState } from "react";
 import type { IngestResult } from "../shared/apiClient";
 import { apiClient, ApiError } from "../shared/apiClient";
+import { setCurrentPassage } from "../shared/currentPassage";
 
 type Mode = "text" | "url" | "pdf";
 
@@ -51,6 +52,7 @@ export default function AddMaterial() {
       if (mode === "pdf" && file) form.set("file", file);
       const ingested = await apiClient.ingestMaterial(form);
       setResult(ingested);
+      setCurrentPassage(ingested.passage_id); // other features (e.g. Flowchart) show this passage
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not add this material. Is apps/api running?");
     } finally {

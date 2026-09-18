@@ -20,7 +20,8 @@ describe("App shell", () => {
     render(<App />);
 
     await user.click(screen.getByRole("button", { name: "Flowchart" }));
-    await waitFor(() => expect(screen.getByText(/nodes,.*edges/)).toBeInTheDocument());
+    // F2 replaced its placeholder with the real flowchart; its "Text version" toggle proves the slot loaded the flow.
+    await waitFor(() => expect(screen.getByRole("button", { name: "Text version" })).toBeInTheDocument());
 
     await user.click(screen.getByRole("button", { name: "Animation" }));
     await waitFor(() => expect(screen.getByText(/steps/)).toBeInTheDocument());

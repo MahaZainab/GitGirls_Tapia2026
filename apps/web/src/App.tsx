@@ -14,6 +14,7 @@ import SummaryFeature from "./features/summary";
 import AddMaterial from "./material/AddMaterial";
 import { LiveRegion } from "./shared/a11y";
 import { ToastHost } from "./shared/notificationService";
+import { useCurrentPassage } from "./shared/currentPassage";
 import { PreferencesProvider, usePreferences } from "./shared/preferences";
 import { installSourcePaneStub } from "./shared/sourcePaneStub";
 
@@ -41,6 +42,12 @@ function ThemedShell() {
 
   const [activeSlot, setActiveSlot] = useState<(typeof SLOTS)[number]["id"]>("summary");
   const ActiveComponent = SLOTS.find((s) => s.id === activeSlot)?.Component ?? SummaryFeature;
+
+  // After material is added, jump to the Flowchart tab so the pasted text shows up as a flowchart.
+  const currentPassage = useCurrentPassage();
+  useEffect(() => {
+    if (currentPassage) setActiveSlot("flowchart");
+  }, [currentPassage]);
 
   return (
     <MotionPolicyProvider userMotionSetting={prefs.display.motion}>

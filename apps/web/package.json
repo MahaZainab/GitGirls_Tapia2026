@@ -11,6 +11,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^3.1.1",
     "@studyshift/contracts": "*",
     "@studyshift/ui-tokens": "*",
     "react": "^18.3.1",
